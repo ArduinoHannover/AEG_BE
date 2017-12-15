@@ -13,7 +13,7 @@ class AEG_BE10 : public Adafruit_GFX {
 			_panels,
 			_latch,
 			_enable;
-		uint16_t _bits;
+		uint16_t _bytes;
 		uint8_t* _imageBuffer;
 		
 	public:
