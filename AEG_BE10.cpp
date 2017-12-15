@@ -14,14 +14,14 @@ AEG_BE10::AEG_BE10(
 	pinMode(_latch, OUTPUT);
 	pinMode(_enable, OUTPUT);
 	digitalWrite(_latch, LOW);
-	_bits = panels * 100;
-	_imageBuffer = calloc(_bits, sizeof(uint8_t));
+	_bytes = panels * 100;
+	_imageBuffer = calloc(_bytes, sizeof(uint8_t));
 	SPI.begin();
 }
 
 void AEG_BE10::fillScreen(uint16_t color) {
 	if (color) {
-		for (uint8_t i = 0; i < _bits; i++) {
+		for (uint8_t i = 0; i < _bytes; i++) {
 			switch (i % 5) {
 				case 0:
 					_imageBuffer[i] = 0xFC;
@@ -34,7 +34,7 @@ void AEG_BE10::fillScreen(uint16_t color) {
 			}
 		}
 	} else {
-		for (uint8_t i = 0; i < _bits; _imageBuffer[i++] = 0);
+		for (uint8_t i = 0; i < _bytes; _imageBuffer[i++] = 0);
 	}
 }
 
@@ -65,7 +65,7 @@ void AEG_BE10::display(void) {
 	uint8_t x, y;
 	SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
 	digitalWrite(_latch, 0);
-	for (uint8_t i = _bits - 1; i < _bits; i--) {
+	for (uint8_t i = _bytes - 1; i < _bytes; i--) {
 		SPI.transfer(_imageBuffer[i]);
 	}
 	digitalWrite(_latch, 1);
