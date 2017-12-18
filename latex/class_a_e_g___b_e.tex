@@ -1,0 +1,136 @@
+\hypertarget{class_a_e_g___b_e}{}\section{A\+E\+G\+\_\+\+BE Class Reference}
+\label{class_a_e_g___b_e}\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+
+
+Display driver for various L\+CD produced by A\+EG (B\+M\+G$\vert$\+M\+IS)  
+
+
+
+
+{\ttfamily \#include $<$A\+E\+G\+\_\+\+B\+E.\+h$>$}
+
+Inheritance diagram for A\+E\+G\+\_\+\+BE\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_a_e_g___b_e}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_e_g___b_e_a85bd3c991a670cf65ed70bca2af49413}{A\+E\+G\+\_\+\+BE} (uint8\+\_\+t, uint8\+\_\+t, uint8\+\_\+t, uint8\+\_\+t, uint8\+\_\+t)
+\begin{DoxyCompactList}\small\item\em Initializes pins, buffer and other functions. \end{DoxyCompactList}\item 
+void \hyperlink{class_a_e_g___b_e_aa8755698903c6e198ca1a07788541d1a}{enable} (void)
+\item 
+void \hyperlink{class_a_e_g___b_e_a340ce74a24ba0dc26c05519a7f865f3c}{disable} (void)
+\item 
+void \hyperlink{class_a_e_g___b_e_a1256522fd3165e2894b59fee10eab621}{draw\+Pixel} (int16\+\_\+t, int16\+\_\+t, uint16\+\_\+t)
+\item 
+void \hyperlink{class_a_e_g___b_e_a26979ef08f0e328d092fecb132da511b}{fill\+Screen} (uint16\+\_\+t)
+\item 
+void \hyperlink{class_a_e_g___b_e_a01f3830d43086806b1e58a4401268d40}{display} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Display driver for various L\+CD produced by A\+EG (B\+M\+G$\vert$\+M\+IS) 
+
+This driver supports different types of L\+C\+Ds with 40 bit shift registers (C\+OG). Currently officially supported are B\+E10 (29x24px) and B\+E11 (39x24px). Pinout of these displays is as following (starting from inside the L\+CD)\+:
+
+1 \mbox{[}input\mbox{]} D\+A\+TA
+
+2 \mbox{[}power\mbox{]} 5V
+
+3 \mbox{[}power\mbox{]} 10V
+
+4 \mbox{[}power\mbox{]} G\+ND
+
+5 \mbox{[}input\mbox{]} E\+N\+A\+B\+LE
+
+6 \mbox{[}input\mbox{]} L\+CD C\+L\+O\+CK
+
+7 \mbox{[}input\mbox{]} L\+A\+T\+CH
+
+8 \mbox{[}input\mbox{]} D\+A\+TA C\+L\+O\+CK
+
+9 \mbox{[}output\mbox{]} D\+A\+TA 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_a_e_g___b_e_a85bd3c991a670cf65ed70bca2af49413}\label{class_a_e_g___b_e_a85bd3c991a670cf65ed70bca2af49413}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{A\+E\+G\+\_\+\+B\+E()}{AEG\_BE()}}
+{\footnotesize\ttfamily A\+E\+G\+\_\+\+B\+E\+::\+A\+E\+G\+\_\+\+BE (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{panels,  }\item[{uint8\+\_\+t}]{latch,  }\item[{uint8\+\_\+t}]{enable,  }\item[{uint8\+\_\+t}]{panelwidth,  }\item[{uint8\+\_\+t}]{registers }\end{DoxyParamCaption})}
+
+
+
+Initializes pins, buffer and other functions. 
+
+Constructor sets pin 3 to output 122 Hz for L\+CD clock, and latch/enable as outputs. M\+O\+SI and S\+CK are used for fast S\+PI transmission to the shift registers at 1 M\+Hz.
+
+
+\begin{DoxyParams}{Parameters}
+{\em panels} & Number of daisychained panels \\
+\hline
+{\em latch} & Latch Pin on Arduino \\
+\hline
+{\em enable} & Enable pin on Arduino \\
+\hline
+{\em panelwidth} & Pixels in width on a single panel \\
+\hline
+{\em registers} & Number of 40 bit shift registers in one row (top/bottom half) \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_a_e_g___b_e_a340ce74a24ba0dc26c05519a7f865f3c}\label{class_a_e_g___b_e_a340ce74a24ba0dc26c05519a7f865f3c}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!disable@{disable}}
+\index{disable@{disable}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily void A\+E\+G\+\_\+\+B\+E\+::disable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Disables output of values in registers \mbox{\Hypertarget{class_a_e_g___b_e_a01f3830d43086806b1e58a4401268d40}\label{class_a_e_g___b_e_a01f3830d43086806b1e58a4401268d40}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!display@{display}}
+\index{display@{display}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily void A\+E\+G\+\_\+\+B\+E\+::display (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Outputs buffer to display at 1 M\+Hz \mbox{\Hypertarget{class_a_e_g___b_e_a1256522fd3165e2894b59fee10eab621}\label{class_a_e_g___b_e_a1256522fd3165e2894b59fee10eab621}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!draw\+Pixel@{draw\+Pixel}}
+\index{draw\+Pixel@{draw\+Pixel}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{draw\+Pixel()}{drawPixel()}}
+{\footnotesize\ttfamily void A\+E\+G\+\_\+\+B\+E\+::draw\+Pixel (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{x,  }\item[{int16\+\_\+t}]{y,  }\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+Draws pixel to buffer on corresponding position 
+\begin{DoxyParams}{Parameters}
+{\em x} & Position on x axis, starting with 0=left \\
+\hline
+{\em y} & Position on y axis, starting with 0=top \\
+\hline
+{\em color} & W\+H\+I\+TE or B\+L\+A\+CK \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_a_e_g___b_e_aa8755698903c6e198ca1a07788541d1a}\label{class_a_e_g___b_e_aa8755698903c6e198ca1a07788541d1a}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!enable@{enable}}
+\index{enable@{enable}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily void A\+E\+G\+\_\+\+B\+E\+::enable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Enables output of values in registers \mbox{\Hypertarget{class_a_e_g___b_e_a26979ef08f0e328d092fecb132da511b}\label{class_a_e_g___b_e_a26979ef08f0e328d092fecb132da511b}} 
+\index{A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}!fill\+Screen@{fill\+Screen}}
+\index{fill\+Screen@{fill\+Screen}!A\+E\+G\+\_\+\+BE@{A\+E\+G\+\_\+\+BE}}
+\subsubsection{\texorpdfstring{fill\+Screen()}{fillScreen()}}
+{\footnotesize\ttfamily void A\+E\+G\+\_\+\+B\+E\+::fill\+Screen (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+Fills the buffer the fastest way without touching invalid bits 
+\begin{DoxyParams}{Parameters}
+{\em color} & W\+H\+I\+TE or B\+L\+A\+CK \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+A\+E\+G\+\_\+\+B\+E.\+h\item 
+A\+E\+G\+\_\+\+B\+E.\+cpp\end{DoxyCompactItemize}
