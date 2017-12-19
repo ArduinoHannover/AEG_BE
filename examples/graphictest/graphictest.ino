@@ -1,4 +1,4 @@
-#include <AEG_BE10.h>
+#include <AEG_BE.h>
 
 //  AEG BE10 - Arduino
 //   DATA IN   11
@@ -12,6 +12,8 @@
 //  DATA OUT
 
 AEG_BE10 display(1, LAT, EN);
+//AEG_BE11 display(1, LAT, EN);
+//AEG_BE display(1, LAT, EN, 29, 10);
 
 #define NUMFLAKES 10
 #define XPOS 0
