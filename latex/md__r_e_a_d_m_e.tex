@@ -1,7 +1,19 @@
-This is an Adafruit G\+FX based L\+CD driver for A\+EG (B\+M\+G$\vert$\+M\+IS) L\+C\+Ds, primary for B\+E10 and B\+E11. Other display types are not tested.
+This is an Adafruit G\+FX based L\+CD driver for A\+EG (B\+M\+G$\vert$\+M\+IS) L\+C\+Ds containing M7005 or M6007 driver I\+Cs, primary for B\+E10 and B\+E11. Other display types are not tested.
 
 \subsection*{Wiring}
 
 The displays have two connectors at each side. On on the top left and one on the bottom right. The following pinout starts from the inner (L\+CD) to outer\+:
 
-$\vert$ Pin $\vert$ Direction $\vert$ Function $\vert$ Ratings $\vert$ $\vert$ ---\+: $\vert$ --- $\vert$ --- $\vert$ --- $\vert$ $\vert$ 1 $\vert$ in $\vert$ Data $\vert$ $\vert$ 2 $\vert$ pwr $\vert$ V\textsubscript{CC} $\vert$ 4.\+5 -\/ 5.\+5 V $\vert$ 3 $\vert$ pwr $\vert$ V\textsubscript{DD} $\vert$ 4.\+5 -\/ 12 V $\vert$ 4 $\vert$ in $\vert$ Reset (Enable) $\vert$ $\vert$ 5 $\vert$ in $\vert$ Switch frequency $\vert$ 30 -\/ 100 Hz $\vert$ 6 $\vert$ in $\vert$ Load (Latch) $\vert$ $\vert$ 7 $\vert$ in $\vert$ Clock $\vert$ 
+$\vert$ Pin $\vert$ Direction $\vert$ Function $\vert$ Ratings $\vert$ --- $\vert$ -\/-\/-\/-\/-\/-\/--- $\vert$ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- $\vert$ --- $\vert$ 1 $\vert$ in $\vert$ Data $\vert$ $\vert$ 2 $\vert$ pwr $\vert$ V\textsubscript{CC} $\vert$ 4.\+5 -\/ 5.\+5 V $\vert$ 3 $\vert$ pwr $\vert$ V\textsubscript{DD} $\vert$ 4.\+5 -\/ 12 V $\vert$ 4 $\vert$ pwr $\vert$ G\+ND $\vert$ $\vert$ 5 $\vert$ in $\vert$ Reset (Enable) $\vert$ $\vert$ 6 $\vert$ in $\vert$ Switch frequency $\vert$ 30 -\/ 100 Hz $\vert$ 7 $\vert$ in $\vert$ Load (Latch) $\vert$ $\vert$ 8 $\vert$ in $\vert$ Clock $\vert$ ≤ 300 k\+Hz $\vert$ 9 $\vert$ out $\vert$ Data $\vert$
+
+3.\+6 V ≤ H\+I\+GH ≤ 5.\+8 V
+
+-\/0.\+3 V ≤ L\+OW ≤ 0.\+8 V
+
+\subsubsection*{Arduino}
+
+This library is mainly for A\+V\+Rs with 3 Timers (A\+Tmega168/328) of which P\+D3 (D3) is used for the 61 Hz L\+CD frequency. The M\+O\+SI (11) and S\+CK (13) Pins are used by the S\+PI library. Enable and latch can be chosen freely.
+
+\subsubsection*{Subclasses}
+
+There are the classes {\ttfamily \hyperlink{class_a_e_g___b_e10}{A\+E\+G\+\_\+\+B\+E10}} and {\ttfamily \hyperlink{class_a_e_g___b_e11}{A\+E\+G\+\_\+\+B\+E11}} which have the appropriate params for the constructors set. 

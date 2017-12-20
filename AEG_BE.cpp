@@ -3,7 +3,7 @@
 /**
 	AEG BE LCD Library
 	@author Luca Zimmermann
-	@version 1.1 18.12.2017
+	@version 1.1.1 20.12.2017
 */
 
 /**
@@ -136,7 +136,7 @@ void AEG_BE::drawPixel(int16_t x, int16_t y, uint16_t color) {
 		else
 			pos += 11 - y;
 	} else {
-		pos += (_bytes << 2) + (width() - 1 - x - x / 29) * 12 + (width() - 1 - x) / 3 * 4;
+		pos += (_bytes << 2) + (width() - 1 - x - x / _panelwidth * _blanks) * 12 + (width() - 1 - x) / 3 * 4;
 		if (y < 18)
 			pos += y - 12;
 		else

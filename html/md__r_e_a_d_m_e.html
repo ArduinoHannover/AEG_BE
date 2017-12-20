@@ -62,10 +62,16 @@ $(function() {
 <div class="title">AEG BE LCD Driver </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is an Adafruit GFX based LCD driver for AEG (BMG|MIS) LCDs, primary for BE10 and BE11. Other display types are not tested.</p>
+<div class="textblock"><p>This is an Adafruit GFX based LCD driver for AEG (BMG|MIS) LCDs containing M7005 or M6007 driver ICs, primary for BE10 and BE11. Other display types are not tested.</p>
 <h2>Wiring</h2>
 <p>The displays have two connectors at each side. On on the top left and one on the bottom right. The following pinout starts from the inner (LCD) to outer:</p>
-<p>| Pin | Direction | Function | Ratings | | &mdash;: | &mdash; | &mdash; | &mdash; | | 1 | in | Data | | 2 | pwr | V<sub>CC</sub> | 4.5 - 5.5 V | 3 | pwr | V<sub>DD</sub> | 4.5 - 12 V | 4 | in | Reset (Enable) | | 5 | in | Switch frequency | 30 - 100 Hz | 6 | in | Load (Latch) | | 7 | in | Clock | </p>
+<p>| Pin | Direction | Function | Ratings | &mdash; | ------&mdash; | -------------&mdash; | &mdash; | 1 | in | Data | | 2 | pwr | V<sub>CC</sub> | 4.5 - 5.5 V | 3 | pwr | V<sub>DD</sub> | 4.5 - 12 V | 4 | pwr | GND | | 5 | in | Reset (Enable) | | 6 | in | Switch frequency | 30 - 100 Hz | 7 | in | Load (Latch) | | 8 | in | Clock | ≤ 300 kHz | 9 | out | Data |</p>
+<p>3.6 V ≤ HIGH ≤ 5.8 V</p>
+<p>-0.3 V ≤ LOW ≤ 0.8 V</p>
+<h3>Arduino</h3>
+<p>This library is mainly for AVRs with 3 Timers (ATmega168/328) of which PD3 (D3) is used for the 61 Hz LCD frequency. The MOSI (11) and SCK (13) Pins are used by the SPI library. Enable and latch can be chosen freely.</p>
+<h3>Subclasses</h3>
+<p>There are the classes <code><a class="el" href="class_a_e_g___b_e10.html" title="Alias constructor for BE10 displays. ">AEG_BE10</a></code> and <code><a class="el" href="class_a_e_g___b_e11.html" title="Alias constructor for BE11 displays. ">AEG_BE11</a></code> which have the appropriate params for the constructors set. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
