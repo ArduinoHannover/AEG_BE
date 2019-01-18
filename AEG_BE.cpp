@@ -64,24 +64,38 @@ AEG_BE::AEG_BE(
 	_panels(panels),
 	_latch(latch),
 	_enable(enable),
-	_panelwidth(panelwidth) {
-	// 61 Hz 1:1 duty cycle on D3
-	// D3 = Output
-	DDRD   |= (1 << DDD3);
-	// Prescaler = 1024
-	TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22);
-	// Fast PWM and Phase Correct
-	TCCR2A |= (1 << COM2B1) | (1 << WGM20) | (1 << WGM21);
-	// 50% Duty cycle
-	OCR2B = 127;
+	_panelwidth(panelwidth),
+	_registers(registers) {
 	pinMode(_latch, OUTPUT);
 	pinMode(_enable, OUTPUT);
 	digitalWrite(_latch, 0);
-	_bytes = panels * registers * 10;
-	_blanks = registers * 3 - panelwidth;
+	_bytes = panels * _registers * 10;
+	_blanks = _registers * 3 - panelwidth;
 	_imageBuffer = (uint8_t*) calloc(_bytes, sizeof(uint8_t));
 	SPI.begin();
 }
+
+#ifdef __AVR
+/**
+	En-/Disables 61 Hz LCD Clock on D3 (AVR only, disabled by default)
+	@param en En-/Disable
+*/
+void AEG_BE::enableClock(boolean en) {
+	if (en) {
+		// 61 Hz 1:1 duty cycle on D3
+		// D3 = Output
+		DDRD   |= (1 << DDD3);
+		// Prescaler = 1024
+		TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22);
+		// Fast PWM and Phase Correct
+		TCCR2A |= (1 << COM2B1) | (1 << WGM20) | (1 << WGM21);
+		// 50% Duty cycle
+		OCR2B = 127;
+	} else {
+		TCCR2A = 0;
+	}
+}
+#endif
 
 /**
 	Fills the buffer the fastest way without touching invalid bits
@@ -89,7 +103,7 @@ AEG_BE::AEG_BE(
 */
 void AEG_BE::fillScreen(uint16_t color) {
 	if (color) {
-		for (uint8_t i = 0; i < _bytes; i++) {
+		for (uint16_t i = 0; i < _bytes; i++) {
 			switch (i % 5) {
 				case 0:
 					_imageBuffer[i] = 0xFC;
@@ -102,7 +116,7 @@ void AEG_BE::fillScreen(uint16_t color) {
 			}
 		}
 	} else {
-		for (uint8_t i = 0; i < _bytes; _imageBuffer[i++] = 0);
+		for (uint16_t i = 0; i < _bytes; _imageBuffer[i++] = 0);
 	}
 }
 
@@ -128,20 +142,40 @@ void AEG_BE::disable(void) {
 */
 void AEG_BE::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	if (x < 0 || y < 0 || x >= width() || y >= height()) return;
-	uint16_t pos = 2;
-	if (y < 12) {
-		pos += (x + x / _panelwidth * _blanks) * 12 + x / 3 * 4;
-		if (y < 6)
-			pos += 6 + y;
-		else
-			pos += 11 - y;
-	} else {
-		pos += (_bytes << 2) + (width() - 1 - x - x / _panelwidth * _blanks) * 12 + (width() - 1 - x) / 3 * 4;
-		if (y < 18)
-			pos += y - 12;
-		else
-			pos += 29 - y;
+	uint16_t t;
+	switch(getRotation()) {
+		case 1:
+			t = x;
+			x = width()  - y - 1;
+			y = t;
+			break;
+		case 2:
+			x = width()  - x - 1;
+			y = height() - y - 1;
+			break;
+		case 3:
+			t = x;
+			x = y;
+			y = height() - t - 1;
+			break;
 	}
+	uint32_t pos = 0;
+	// Invert values for lower half and add 1/2 size
+	if (y >= 12) {
+		y = 23 - y;
+		x = width() - 1 - x;
+		pos = _bytes << 2;
+	}
+	// Determine position in daisychain and add preceeding two blank bits
+	pos += (x / _panelwidth) * _registers * 40 + 2;
+	// Do panel-local calculations
+	x %= _panelwidth;
+	// Add 4 blank bits at each end of an 40 bit register
+	pos += (x / 3) * 4 + x * 12;
+	if (y < 6)
+		pos += 6 + y;
+	else
+		pos += 11 - y;
 	if (color)
 		_imageBuffer[pos >> 3] |= 1 << (pos & 7);
 	else
@@ -152,10 +186,19 @@ void AEG_BE::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	Outputs buffer to display at 1 MHz
 */
 void AEG_BE::display(void) {
-	SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+	SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE0));
 	digitalWrite(_latch, 0);
-	for (uint8_t i = _bytes - 1; i < _bytes; i--) {
-		SPI.transfer(_imageBuffer[i]);
+	for (uint16_t i = _bytes; i > 0; i--) {
+		SPI.transfer(_imageBuffer[i - 1]);
+		yield();
+#ifdef DEBUG
+		for (uint8_t f = 0; f < 8; f++) {
+			Serial.write(((_imageBuffer[i - 1] >> (7 - f)) & 1) ? '*' : '.');
+		}
+		if (i % 5 == 0) Serial.write('\n');
+		if (i % 50 == 0) Serial.write('\n');
+#endif //DEBUG
+		
 	}
 	digitalWrite(_latch, 1);
 	SPI.endTransaction();

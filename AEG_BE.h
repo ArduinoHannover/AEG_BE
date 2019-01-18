@@ -6,12 +6,12 @@
 /**
 	\def WHITE
 	Clear pixel
-*/ 
+*/
 #define WHITE 1
 /**
 	\def BLACK
 	Opaque pixel
-*/ 
+*/
 #define BLACK 0
 
 #define BE10_REGISTERS  10
@@ -53,12 +53,16 @@ class AEG_BE : public Adafruit_GFX {
 			_latch,      ///< Latch pin
 			_enable,     ///< Enable pin
 			_panelwidth, ///< Width in px of each panel
-			_blanks;     ///< Blank cols at end of panel
+			_blanks,     ///< Blank cols at end of panel
+			_registers;
 		uint16_t _bytes; ///< Number of bytes to write
 		uint8_t* _imageBuffer; ///< Imagebuffer
 		
 	public:
 		AEG_BE(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
+#ifdef __AVR
+		void enableClock(boolean);
+#endif
 		void enable(void);
 		void disable(void);
 		void drawPixel(int16_t, int16_t, uint16_t);
@@ -68,7 +72,7 @@ class AEG_BE : public Adafruit_GFX {
 
 /**
 	\class AEG_BE10
-	\brief Alias constructor for BE10 displays
+	\brief Alias constructor for BE10 displays (29x24px)
 	\sa    AEG_BE
 */
 class AEG_BE10 : public AEG_BE {
@@ -78,7 +82,7 @@ class AEG_BE10 : public AEG_BE {
 
 /**
 	\class AEG_BE11
-	\brief Alias constructor for BE11 displays
+	\brief Alias constructor for BE11 displays (39x24px)
 	\sa    AEG_BE
 */
 class AEG_BE11 : public AEG_BE {
